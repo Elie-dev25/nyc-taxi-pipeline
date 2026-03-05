@@ -1,0 +1,23 @@
+# Credentials
+*.key
+*.pem
+*credentials*
+*secrets*
+.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Data 
+data/
+*.parquet
+*.csv
