@@ -4,7 +4,7 @@
 -- Description : Warehouses dédiés (isolation compute)
 -- Projet     : NYC Taxi Real-Time Pipeline
 -- Auteur     : Elie
--- Date       : 2024-03-02
+-- Date       : 2026-03-02
 -- ============================================================================
 
 USE ROLE ACCOUNTADMIN;
