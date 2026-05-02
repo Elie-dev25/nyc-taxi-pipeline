@@ -1,6 +1,3 @@
-Voici le README complet :
-markdown# NYC Taxi Data Pipeline
-
 Pipeline de données end-to-end construit sur les données publiques des taxis
 de New York City (TLC), utilisant une architecture Medallion sur Snowflake
 avec ingestion automatique via AWS.
