@@ -1,7 +1,7 @@
 # Snowpipe Setup Guide
 
 **Projet :** NYC Taxi Real-Time Pipeline  
-**Date :** 2026-03-06  
+**Date :** 2026-05-02  
 
 ---
 
@@ -72,7 +72,7 @@ aws s3 cp test_file.parquet s3://elie-nyc-taxi-pipeline/landing/yellow/
 
 ### Surveiller
 
-Exécuter `sql/01_bronze/16_monitor_snowpipe.sql` en boucle.
+Exécuter `sql/01_bronze/14_monitor_snowpipe.sql` en boucle.
 
 ---
 

@@ -17,9 +17,11 @@ Ce pipeline suit l'architecture **Medallion** (Bronze → Silver → Gold) :
 - **Gold** : Agrégations journalières prêtes pour l'analyse business.
 
 ### Schéma global
+```
 bronze.yellow_trips_raw  ──┐
 bronze.green_trips_raw   ──┼──► silver.trips_clean ──► gold.daily_stats
 bronze.fhv_trips_raw     ──┘
+```
 
 ---
 
