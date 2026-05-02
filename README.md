@@ -29,45 +29,15 @@ Format source : **Parquet**
 ---
 
 ## Architecture complète
-Fichiers TLC (Parquet)
-│
-▼
-┌───────────────────────┐
-│     AWS S3 Bucket     │  elie-nyc-taxi-pipeline
-│  landing/yellow/      │  Stockage des fichiers sources
-│  landing/green/       │
-│  landing/fhv/         │
-└──────────┬────────────┘
-│ S3 Event Notification
-▼
-┌───────────────────────┐
-│     AWS SQS Queue     │  Détection automatique
-│                       │  des nouveaux fichiers
-└──────────┬────────────┘
-│ Snowpipe (< 1 min latence)
-▼
-┌───────────────────────┐
-│    BRONZE LAYER       │  Données brutes, aucune transformation
-│  yellow_trips_raw     │  pipe_yellow / pipe_green / pipe_fhv
-│  green_trips_raw      │
-│  fhv_trips_raw        │
-└──────────┬────────────┘
-│ SnowSQL CLI (scripts SQL)
-▼
-┌───────────────────────┐
-│    SILVER LAYER       │  Nettoyage, typage, validation
-│  yellow_trips_clean   │  4 CTEs séquentiels par table
-│  green_trips_clean    │
-│  fhv_trips_clean      │
-└──────────┬────────────┘
-│
-▼
-┌───────────────────────┐
-│     GOLD LAYER        │  Agrégations journalières
-│  daily_revenue_stats  │
-│  daily_passenger_stats│
-│  daily_fleet_stats    │
-└───────────────────────┘
+
+```mermaid
+graph TD
+    A[Fichiers TLC Parquet] --> B[AWS S3 Bucket<br/>elie-nyc-taxi-pipeline<br/>landing/yellow/green/fhv]
+    B -->|S3 Event Notification| C[AWS SQS Queue]
+    C -->|Snowpipe<br/>&lt;1 min latence| D[BRONZE LAYER<br/>yellow_trips_raw<br/>green_trips_raw<br/>fhv_trips_raw]
+    D -->|SnowSQL CLI| E[SILVER LAYER<br/>yellow_trips_clean<br/>green_trips_clean<br/>fhv_trips_clean]
+    E --> F[GOLD LAYER<br/>daily_revenue_stats<br/>daily_passenger_stats<br/>daily_fleet_stats]
+```
 
 ---
 
@@ -180,31 +150,34 @@ Exemple de métriques Gold (31 mars 2025) :
 ---
 
 ## Structure du projet
+
+```
 nyc-taxi-pipeline/
 ├── docs/
-│   ├── data_dictionary.md     # Dictionnaire de données complet
-│   └── snowpipe_setup.md      # Guide de configuration Snowpipe + AWS
+│   ├── data_dictionary.md
+│   └── snowpipe_setup.md
 ├── sql/
-│   ├── 00_setup/              # Création database, schemas, warehouses
-│   ├── 01_bronze/             # Chargement et monitoring Bronze
-│   ├── 02_silver/             # Transformations Silver
+│   ├── 00_setup/
+│   ├── 01_bronze/
+│   ├── 02_silver/
 │   │   ├── 01_create_table_fhv_clean.sql
 │   │   ├── 02_create_table_yellow_clean.sql
 │   │   ├── 03_create_table_green_clean.sql
 │   │   ├── 04_transform_fhv.sql
 │   │   ├── 05_transform_yellow.sql
 │   │   └── 06_transform_green.sql
-│   ├── 03_gold/               # Agrégations Gold
+│   ├── 03_gold/
 │   │   ├── 01_create_tables_gold.sql
 │   │   └── 02_transform_gold.sql
-│   └── 04_monitoring/         # Scripts de surveillance
+│   └── 04_monitoring/
 │       ├── 01_check_freshness.sql
 │       ├── 02_check_volume.sql
 │       ├── 03_check_quality.sql
 │       ├── 04_check_metric_drift.sql
 │       └── 05_check_bronze_silver_consistency.sql
 └── scripts/
-└── watch_snowpipe.sh      # Script de surveillance Snowpipe
+    └── watch_snowpipe.sh
+```
 
 ---
 
