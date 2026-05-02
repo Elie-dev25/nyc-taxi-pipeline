@@ -1,0 +1,13 @@
+USE DATABASE nyc_taxi_db;
+USE SCHEMA bronze;
+USE WAREHOUSE nyc_analytics_wh;
+
+
+SELECT * 
+FROM TABLE(INFORMATION_SCHEMA.COPY_HISTORY(
+    TABLE_NAME => 'YELLOW_TRIPS_RAW',
+    START_TIME => DATEADD('day', -7, CURRENT_TIMESTAMP())
+))
+WHERE status != 'LOADED'
+ORDER BY last_load_time DESC;
+
