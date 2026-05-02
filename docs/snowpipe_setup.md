@@ -97,7 +97,6 @@ Exécuter `sql/01_bronze/16_monitor_snowpipe.sql` en boucle.
 SELECT * FROM TABLE(INFORMATION_SCHEMA.COPY_HISTORY(...))
 WHERE status != 'LOADED';
 ```
-```
 
 ---
 
