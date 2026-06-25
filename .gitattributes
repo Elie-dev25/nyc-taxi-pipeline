@@ -39,3 +39,6 @@
 *(parquet binary
 *.pkl binary
 *.pickle binary
+
+*.sh linguist-detectable=false
+*.sql linguist-language=SQL
